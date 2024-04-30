@@ -1,87 +1,62 @@
 pipeline {
     agent any
-
+    
     stages {
         stage('Build') {
             steps {
-                script {
-                    // Compile and package the code using Maven or Gradle
-                    sh 'mvn clean package' // Example Maven command
-                }
+                Compile and package the code using Maven
+                Tool: Maven
             }
         }
-
         stage('Unit and Integration Tests') {
             steps {
-                script {
-                    // Run unit tests using JUnit or TestNG
-                    sh 'mvn test' // Example Maven command for running tests
-                    // Run integration tests using tools specific to your application
-                    // e.g., Docker-compose, Postman, etc.
-                }
+                Run unit tests using JUnit or TestNG
+                Tool: JUnit, TestNG
+                Run integration tests using tools specific to your application
             }
         }
-
         stage('Code Analysis') {
             steps {
-                script {
-                    // Analyze code using Jenkins plugins like Checkstyle or FindBugs
-                    // Example: Perform static code analysis with Checkstyle
-                    checkstyle canRunOnFailed: true, pattern: 'target/checkstyle-result.xml'
-                }
+                Integrate a code analysis tool like Checkstyle or FindBugs
+                Tool: Jenkins plugin for static code analysis
             }
         }
-
         stage('Security Scan') {
             steps {
-                script {
-                    // Perform security scanning using Jenkins plugins like OWASP Dependency-Check
-                    // Example: Execute OWASP Dependency-Check
-                    dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
-                }
+                Perform a security scan using a tool like OWASP Dependency-Check
+                Tool: Jenkins plugin for security scanning
             }
         }
-
         stage('Deploy to Staging') {
             steps {
-                script {
-                    // Deploy the application to a staging environment using Jenkins plugins or CLI tools
-                    // Example: Deploy to AWS EC2 using AWS CLI
-                    sh 'aws ec2 deploy ...'
-                }
+                Deploy the application to a staging server using deployment tools like AWS CLI
+                Tool: Jenkins plugin for deployment
             }
         }
-
         stage('Integration Tests on Staging') {
             steps {
-                script {
-                    // Run integration tests on the staging environment
-                    // Use tools specific to your application
-                }
+                Run integration tests on the staging environment
+                Tool: Integration testing tools specific to your application
             }
         }
-
         stage('Deploy to Production') {
             steps {
-                script {
-                    // Deploy the application to the production environment
-                    // Use similar deployment tools as in 'Deploy to Staging'
-                }
+                Deploy the application to a production server using deployment tools like AWS CLI
+                Tool: Jenkins plugin for deployment
             }
         }
     }
     
     post {
         success {
-            emailext body: 'Pipeline succeeded',
-                     subject: 'Pipeline Status: Success',
-                     to: 'email@example.com'
+            mail to: "bhanusinghthakur1002@gmail.com
+            subject: "Pipeline Succeeded"
+            body: "Pipeline Status:Success"
         }
         failure {
-            emailext body: 'Pipeline failed',
-                     subject: 'Pipeline Status: Failure',
-                     to: 'email@example.com'
+            mail to: "bhanusinghthakur1002@gmail.com"
+            subject: "Pipeline Failed"
+            body: "Pipeline Status: Failure"
         }
     }
 }
-
