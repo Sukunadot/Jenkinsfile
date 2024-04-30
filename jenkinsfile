@@ -1,17 +1,87 @@
-pipeline{
+pipeline {
     agent any
-    stages{
-        stage("Build"){
-            steps{
-                echo "Building ..."    
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    // Compile and package the code using Maven or Gradle
+                    sh 'mvn clean package' // Example Maven command
+                }
             }
-            post{
-                always{
-                    mail to: "bhanusinghthakur1002@gmail.com",
-                    subject: "Build Status Email",
-                    body: "Build was successful !"
+        }
+
+        stage('Unit and Integration Tests') {
+            steps {
+                script {
+                    // Run unit tests using JUnit or TestNG
+                    sh 'mvn test' // Example Maven command for running tests
+                    // Run integration tests using tools specific to your application
+                    // e.g., Docker-compose, Postman, etc.
+                }
+            }
+        }
+
+        stage('Code Analysis') {
+            steps {
+                script {
+                    // Analyze code using Jenkins plugins like Checkstyle or FindBugs
+                    // Example: Perform static code analysis with Checkstyle
+                    checkstyle canRunOnFailed: true, pattern: 'target/checkstyle-result.xml'
+                }
+            }
+        }
+
+        stage('Security Scan') {
+            steps {
+                script {
+                    // Perform security scanning using Jenkins plugins like OWASP Dependency-Check
+                    // Example: Execute OWASP Dependency-Check
+                    dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+                }
+            }
+        }
+
+        stage('Deploy to Staging') {
+            steps {
+                script {
+                    // Deploy the application to a staging environment using Jenkins plugins or CLI tools
+                    // Example: Deploy to AWS EC2 using AWS CLI
+                    sh 'aws ec2 deploy ...'
+                }
+            }
+        }
+
+        stage('Integration Tests on Staging') {
+            steps {
+                script {
+                    // Run integration tests on the staging environment
+                    // Use tools specific to your application
+                }
+            }
+        }
+
+        stage('Deploy to Production') {
+            steps {
+                script {
+                    // Deploy the application to the production environment
+                    // Use similar deployment tools as in 'Deploy to Staging'
                 }
             }
         }
     }
+    
+    post {
+        success {
+            emailext body: 'Pipeline succeeded',
+                     subject: 'Pipeline Status: Success',
+                     to: 'email@example.com'
+        }
+        failure {
+            emailext body: 'Pipeline failed',
+                     subject: 'Pipeline Status: Failure',
+                     to: 'email@example.com'
+        }
+    }
 }
+
