@@ -6,7 +6,7 @@ pipeline{
                 echo "Building ..."    
             }
             post{
-                success{
+                always{
                     mail to: "bhanusinghthakur1002@gmail.com",
                     subject: "Build Status Email",
                     body: "Build was successful !"
