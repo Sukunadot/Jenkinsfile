@@ -49,7 +49,7 @@ pipeline {
     
     post {
         success {
-            mail to: "bhanusinghthakur1002@gmail.com
+            mail to: "bhanusinghthakur1002@gmail.com"
             subject: "Pipeline Succeeded"
             body: "Pipeline Status:Success"
         }
