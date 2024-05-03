@@ -8,43 +8,39 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "mvn compile package" // Compile and package the code using Maven
+                sh "mvn clean compile package" // Compile and package the code using Maven
             }
         }
         stage('Unit and Integration Tests') {
             steps {
                 sh "mvn test" // Run unit tests using Maven
-                // Run integration tests using tools specific to your application
+                sh "echo Running integration tests..." // Placeholder for running integration tests
             }
         }
         stage('Code Analysis') {
             steps {
-                // Integrate a code analysis tool like Checkstyle or FindBugs
-                // Tool: "Jenkins plugin for static code analysis"
+                sh "mvn checkstyle:check" // Run Checkstyle
+                sh "mvn findbugs:check" // Run FindBugs
             }
         }
         stage('Security Scan') {
             steps {
-                // Perform a security scan using a tool like OWASP Dependency-Check
-                // Tool: "Jenkins plugin for security scanning"
+                sh "mvn verify -DskipTests" // Perform a security scan using OWASP Dependency-Check
             }
         }
         stage('Deploy to Staging') {
             steps {
-                // Deploy the application to a staging server using deployment tools like AWS CLI
-                // Tool: "Jenkins plugin for deployment"
+                sh "aws ecs deploy-staging" // Deploy the application to a staging server using AWS ECS CLI
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                // Run integration tests on the staging environment
-                // Tool: "Integration testing tools specific to your application"
+                sh "mvn integration-test" // Run integration tests on the staging environment
             }
         }
         stage('Deploy to Production') {
             steps {
-                // Deploy the application to a production server using deployment tools like AWS CLI
-                // Tool: "Jenkins plugin for deployment"
+                sh "aws ecs deploy-production" // Deploy the application to a production server using AWS ECS CLI
             }
         }
     }
