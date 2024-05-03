@@ -2,7 +2,6 @@ pipeline {
     agent any
     
     stages {
-        stage('Example Stage') {
         stage('Build') {
             steps {
                 sh "mvn clean compile package" // Compile and package the code using Maven
@@ -53,6 +52,5 @@ pipeline {
             subject: "Pipeline Failed",
             body: "Pipeline Status: Failure"
         }
-      }
     }
 }
