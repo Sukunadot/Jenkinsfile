@@ -53,5 +53,6 @@ pipeline {
             subject: "Pipeline Failed",
             body: "Pipeline Status: Failure"
         }
+      }
     }
 }
