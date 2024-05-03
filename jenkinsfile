@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     tools {
-        maven "Maven Project" // Define Maven tool
+        maven "null" // Define Maven tool
     }
     
     stages {
