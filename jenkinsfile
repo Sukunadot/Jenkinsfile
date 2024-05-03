@@ -4,39 +4,39 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "mvn clean compile package" // Compile and package the code using Maven
+                bat "mvn clean compile package" // Compile and package the code using Maven
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                sh "mvn test" // Run unit tests using Maven
-                sh "echo Running integration tests..." // Placeholder for running integration tests
+                bat "mvn test" // Run unit tests using Maven
+                bat "echo Running integration tests..." // Placeholder for running integration tests
             }
         }
         stage('Code Analysis') {
             steps {
-                sh "mvn checkstyle:check" // Run Checkstyle
-                sh "mvn findbugs:check" // Run FindBugs
+                bat "mvn checkstyle:check" // Run Checkstyle
+                bat "mvn findbugs:check" // Run FindBugs
             }
         }
         stage('Security Scan') {
             steps {
-                sh "mvn verify -DskipTests" // Perform a security scan using OWASP Dependency-Check
+                bat "mvn verify -DskipTests" // Perform a security scan using OWASP Dependency-Check
             }
         }
         stage('Deploy to Staging') {
             steps {
-                sh "aws ecs deploy-staging" // Deploy the application to a staging server using AWS ECS CLI
+                bat "aws ecs deploy-staging" // Deploy the application to a staging server using AWS ECS CLI
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                sh "mvn integration-test" // Run integration tests on the staging environment
+                bat "mvn integration-test" // Run integration tests on the staging environment
             }
         }
         stage('Deploy to Production') {
             steps {
-                sh "aws ecs deploy-production" // Deploy the application to a production server using AWS ECS CLI
+                bat "aws ecs deploy-production" // Deploy the application to a production server using AWS ECS CLI
             }
         }
     }
