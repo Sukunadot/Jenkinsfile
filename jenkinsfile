@@ -2,30 +2,30 @@ pipeline {
     agent any
     
     tools {
-        maven "null" // Define Maven tool
+        gradle 'Gradle Repo' // Define Gradle tool
     }
     
     stages {
         stage('Build') {
             steps {
-                sh "mvn clean compile package" // Compile and package the code using Maven
+                sh "./gradlew clean build" // Compile and package the code using Gradle
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                sh "mvn test" // Run unit tests using Maven
+                sh "./gradlew test" // Run unit tests using Gradle
                 sh "echo Running integration tests..." // Placeholder for running integration tests
             }
         }
         stage('Code Analysis') {
             steps {
-                sh "mvn checkstyle:check" // Run Checkstyle
-                sh "mvn findbugs:check" // Run FindBugs
+                sh "./gradlew checkstyleMain checkstyleTest" // Run Checkstyle
+                sh "./gradlew findbugs" // Run FindBugs
             }
         }
         stage('Security Scan') {
             steps {
-                sh "mvn verify -DskipTests" // Perform a security scan using OWASP Dependency-Check
+                sh "./gradlew securityScan" // Perform a security scan using a Gradle task
             }
         }
         stage('Deploy to Staging') {
@@ -35,7 +35,7 @@ pipeline {
         }
         stage('Integration Tests on Staging') {
             steps {
-                sh "mvn integration-test" // Run integration tests on the staging environment
+                sh "./gradlew integrationTest" // Run integration tests on the staging environment
             }
         }
         stage('Deploy to Production') {
