@@ -3,20 +3,6 @@ pipeline {
     
     stages {
         stage('Example Stage') {
-            steps {
-                // Remove 'nohup' from the command
-                sh "nohup some_command &"
-                // Replace it with the actual command
-                sh "some_command &"
-            }
-        }
-    }
-}
-pipeline {
-    agent any
-    
-    stages {
-        stage('Example Stage') {
         stage('Build') {
             steps {
                 sh "mvn clean compile package" // Compile and package the code using Maven
