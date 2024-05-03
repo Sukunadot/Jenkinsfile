@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     tools {
-        gradle 'Gradle Repo' // Define Gradle tool
+        gradle 'Gradle' // Define Gradle tool
     }
     
     stages {
