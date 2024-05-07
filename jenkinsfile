@@ -48,7 +48,7 @@ pipeline{
             post {
                 success {
                     // Send email notification on successful deployment
-                    emailtext(
+                    emailext(
                         to: 'bhanusinghthakur1002@gmail.com',
                         subject: 'Deployment Successful',
                         body: 'The deployment was successful'
