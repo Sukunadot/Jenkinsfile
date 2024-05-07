@@ -1,56 +1,60 @@
-pipeline {
+pipeline{
     agent any
-    
-    stages {
-        stage('Build') {
+
+    stages{
+        stage('Build'){
             steps {
-                bat "mvn clean compile package" // Compile and package the code using Maven
+                // BUild the code using Maven or another build automation tool
+                echo "Buld Stage"
             }
         }
-        stage('Unit and Integration Tests') {
+        stage('Unit and Integration Tests'){
             steps {
-                bat "mvn test" // Run unit tests using Maven
-                bat "echo Running integration tests..." // Placeholder for running integration tests
+                // Run unit tests using JUnit or another test automation tool
+                // Run integration tests using Selenium or another integration testing tool
+                echo "Testing Stage"
             }
         }
-        stage('Code Analysis') {
+        stage('Code Analysis'){
             steps {
-                bat "mvn checkstyle:check" // Run Checkstyle
-                bat "mvn findbugs:check" // Run FindBugs
+                // Integrate a code analysis tools like SoanrQube or checkstyle
+                echo "Code Analysis Stage"
             }
         }
-        stage('Security Scan') {
+        stage('Security Scan'){
             steps {
-                bat "mvn verify -DskipTests" // Perform a security scan using OWASP Dependency-Check
+                // Perform a security scan using tools like OWASP ZAP or SonarQube
+                echo "Security Stage"
             }
         }
-        stage('Deploy to Staging') {
-            steps {
-                bat "aws ecs deploy-staging" // Deploy the application to a staging server using AWS ECS CLI
+        stage('Deploy to Staging'){
+            steps{
+                // Deploy the application to a staging server, e.g., AWS EC2 instance
+                echo "Deployment Stage"
             }
         }
-        stage('Integration Tests on Staging') {
+        stage('Integration tests on Staging'){
             steps {
-                bat "mvn integration-test" // Run integration tests on the staging environment
+                // Run integration tests on the staging environment
+                echo "Integration Stage"
             }
         }
-        stage('Deploy to Production') {
+        stage('Deploy to Production'){
             steps {
-                bat "aws ecs deploy-production" // Deploy the application to a production server using AWS ECS CLI
+                // Depoy the application to a production server, e.g., AWS EC2 instance
+                echo "Production Stage"
             }
-        }
-    }
-    
-    post {
-        success {
-            mail to: "bhanusinghthakur1002@gmail.com",
-            subject: "Pipeline Succeeded",
-            body: "Pipeline Status: Success"
-        }
-        failure {
-            mail to: "bhanusinghthakur1002@gmail.com",
-            subject: "Pipeline Failed",
-            body: "Pipeline Status: Failure"
+
+            post {
+                success {
+                    // Send email notification on successful deployment
+                    emailtext(
+                        to: 'bhanusinghthakur1002@gmail.com'
+                        subject: 'Deployment Successful'
+                        body: 'The deployment was successful'
+                    )
+                }
+            }
         }
     }
 }
