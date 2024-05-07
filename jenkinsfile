@@ -46,13 +46,10 @@ pipeline{
             }
 
             post {
-                success {
-                    // Send email notification on successful deployment
-                    emailext(
-                        to: 'bhanusinghthakur1002@gmail.com',
+                success {                    
+                        mail to: 'bhanusinghthakur1002@gmail.com',
                         subject: 'Deployment Successful',
                         body: 'The deployment was successful'
-                    )
                 }
             }
         }
